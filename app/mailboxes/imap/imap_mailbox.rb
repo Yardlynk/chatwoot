@@ -44,7 +44,7 @@ class Imap::ImapMailbox
     if message.nil?
       @inbox.conversations.where("additional_attributes->>'in_reply_to' = ?", in_reply_to).first
     else
-      @inbox.conversations.find(message.conversation_id)
+      Conversation.find(message.conversation_id)
     end
   end
 
