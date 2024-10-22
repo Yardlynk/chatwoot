@@ -26,3 +26,10 @@ remove_stale_contact_inboxes_job.rb:
   cron: '30 22 * * *'
   class: 'Internal::RemoveStaleContactInboxesJob'
   queue: scheduled_jobs
+
+# executed At every minute..
+# ADDED BY YARDLINK
+inbox_label_swap_job.rb:
+  cron: '*/1 * * * *'
+  class: 'InboxLabelSwapJob'
+  queue: scheduled_jobs
