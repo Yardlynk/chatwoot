@@ -10,7 +10,7 @@ class HtmlParser
   end
 
   def document
-    @document ||= Nokogiri::HTML(raw_body)
+    document ||= Nokogiri::HTML(raw_body)
   end
 
   def filter_replies!
@@ -19,12 +19,18 @@ class HtmlParser
 
   def filtered_html
     @filtered_html ||= begin
-      filter_replies!
-      document.inner_html
-    end
+                         filter_replies!
+                         document.inner_html
+                       end
   end
 
   def filtered_text
-    @filtered_text ||= Html2Text.convert(filtered_html)
+    @filtered_text ||= begin
+                         Html2Text.convert(filtered_html)
+                       rescue Encoding::CompatibilityError
+                         filtered_html.force_encoding("UTF-8")
+                         Html2Text.convert(filtered_html)
+                       end
+
   end
 end
