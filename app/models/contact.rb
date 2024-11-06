@@ -224,9 +224,10 @@ class Contact < ApplicationRecord
     p "previous_changes['custom_attributes']: #{previous_changes['custom_attributes']}"
     p "***---" * 10
 
-    if previous_changes['custom_attributes'].present? && previous_changes['custom_attributes'][1].keys.intersect?(%w[yl_contact_owner])
-      self.conversations.each do |conversation|
-        conversation.notify_conversation_creation
+    if previous_changes['custom_attributes'].present? &&
+      previous_changes['custom_attributes']["yl_contact_owner"] != self['custom_attributes']["yl_contact_owner"]
+      conversations.open.unassigned.each do |conversation|
+        conversation.send(:notify_conversation_creation)
       end
     end
   end
