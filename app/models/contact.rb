@@ -224,8 +224,13 @@ class Contact < ApplicationRecord
     p "previous_changes['custom_attributes']: #{previous_changes['custom_attributes']}"
     p "***---" * 10
 
+
+    # "previous_changes: {\"updated_at\"=>[Wed, 06 Nov 2024 13:36:58.007419000 UTC +00:00, Wed, 06 Nov 2024 13:41:14.518552940 UTC +00:00], \"custom_attributes\"=>[{\"yl_contact_owner\"=>\"elle.stevenson@yardlink.com\"}, {\"yl_contact_owner\"=>\"chris.taylor@yardlink.com \"}]}"
+    # "previous_changes['custom_attributes']: [{\"yl_contact_owner\"=>\"elle.stevenson@yardlink.com\"}, {\"yl_contact_owner\"=>\"chris.taylor@yardlink.com \"}]"
+
+    # (previous_changes['additional_attributes'].present? && previous_changes['additional_attributes'][1].keys.intersect?(%w[conversation_language]))
     if previous_changes['custom_attributes'].present? &&
-      previous_changes['custom_attributes']['yl_contact_owner'] != self.custom_attributes['yl_contact_owner']
+      previous_changes['custom_attributes'][1]['yl_contact_owner'] != previous_changes['custom_attributes'][2]['yl_contact_owner']
       conversations.open.unassigned.each do |conversation|
         conversation.send(:notify_conversation_creation)
       end
