@@ -218,6 +218,17 @@ class Contact < ApplicationRecord
 
   def dispatch_update_event
     Rails.configuration.dispatcher.dispatch(CONTACT_UPDATED, Time.zone.now, contact: self, changed_attributes: previous_changes)
+
+    p "***---" * 10
+    p "previous_changes: #{previous_changes}"
+    p "previous_changes['custom_attributes']: #{previous_changes['custom_attributes']}"
+    p "***---" * 10
+
+    if previous_changes['custom_attributes'].present? && previous_changes['custom_attributes'][1].keys.intersect?(%w[yl_contact_owner])
+      self.conversations.each do |conversation|
+        conversation.notify_conversation_creation
+      end
+    end
   end
 
   def dispatch_destroy_event
