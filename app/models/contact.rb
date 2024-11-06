@@ -220,13 +220,23 @@ class Contact < ApplicationRecord
     Rails.configuration.dispatcher.dispatch(CONTACT_UPDATED, Time.zone.now, contact: self, changed_attributes: previous_changes)
 
     p "***---" * 10
+    p "Outside the if......."
     p "previous_changes: #{previous_changes}"
     p "previous_changes['custom_attributes']: #{previous_changes['custom_attributes']}"
     p "***---" * 10
 
     if previous_changes['custom_attributes'].present? &&
       previous_changes['custom_attributes'][0]['yl_contact_owner'] != previous_changes['custom_attributes'][1]['yl_contact_owner']
-      conversations.open.unassigned.each do |conversation|
+      open_conversations = conversations.open
+      p "***---" * 10
+      p "Inside the if......."
+      p "previous_changes: #{previous_changes}"
+      p "previous_changes['custom_attributes']: #{previous_changes['custom_attributes']}"
+      p "self: #{self.inspect}"
+      p "open_conversations_id: #{open_conversations.pluck(:id)}"
+      p "***---" * 10
+
+      open_conversations.each do |conversation|
         conversation.send(:notify_conversation_creation)
       end
     end
