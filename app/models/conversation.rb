@@ -213,6 +213,7 @@ class Conversation < ApplicationRecord
   end
 
   def set_yl_contact_owner
+    # ADDED BY YARDLINK
     self.custom_attributes['yl_contact_owner'] = contact.custom_attributes['yl_contact_owner']
   end
 
