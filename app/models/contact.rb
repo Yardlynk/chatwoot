@@ -218,30 +218,25 @@ class Contact < ApplicationRecord
 
   def dispatch_update_event
     Rails.configuration.dispatcher.dispatch(CONTACT_UPDATED, Time.zone.now, contact: self, changed_attributes: previous_changes)
-
-    # p "***---" * 10
-    # p "Outside the if......."
-    # p "previous_changes: #{previous_changes}"
-    # p "previous_changes['custom_attributes']: #{previous_changes['custom_attributes']}"
-    # p "***---" * 10
-
-    if previous_changes['custom_attributes'].present? &&
-      previous_changes['custom_attributes'][0]['yl_contact_owner'] != previous_changes['custom_attributes'][1]['yl_contact_owner']
-      # p "***---" * 10
-      # p "Inside the if......."
-      # p "previous_changes: #{previous_changes}"
-      # p "previous_changes['custom_attributes']: #{previous_changes['custom_attributes']}"
-      # p "self: #{self.inspect}"
-      # p "open_conversations_id: #{open_conversations.pluck(:id)}"
-      # p "***---" * 10
-      open_conversations = conversations.open.order(id: :desc)
-      open_conversations.each do |conversation|
-        conversation.send(:notify_conversation_creation)
-      end
+    set_yl_contact_owner
     end
   end
 
   def dispatch_destroy_event
     Rails.configuration.dispatcher.dispatch(CONTACT_DELETED, Time.zone.now, contact: self)
   end
+
+  def set_yl_contact_owner
+    # ADDED BY YARDLINK
+    if previous_changes['custom_attributes'].present? &&
+      previous_changes['custom_attributes'][0]['yl_contact_owner'] != previous_changes['custom_attributes'][1]['yl_contact_owner']
+
+      open_conversations = conversations.open.order(id: :desc)
+      open_conversations.each do |conversation|
+        conversation.custom_attributes['yl_contact_owner'] = self.custom_attributes['yl_contact_owner']
+        conversation.send(:notify_conversation_creation)
+      end
+  end
+
+
 end
