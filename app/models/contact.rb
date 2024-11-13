@@ -234,6 +234,7 @@ class Contact < ApplicationRecord
       open_conversations = conversations.open.order(id: :desc)
       open_conversations.each do |conversation|
         conversation.custom_attributes['yl_contact_owner'] = self.custom_attributes['yl_contact_owner']
+        conversation.save!
         conversation.send(:notify_conversation_creation)
       end
   end
