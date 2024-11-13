@@ -104,6 +104,7 @@ class Conversation < ApplicationRecord
   has_many :attachments, through: :messages
 
   before_save :ensure_snooze_until_reset
+  before_save :set_yl_contact_owner
   before_create :determine_conversation_status
   before_create :ensure_waiting_since
 
@@ -209,6 +210,10 @@ class Conversation < ApplicationRecord
     notify_status_change
     create_activity
     notify_conversation_updation
+  end
+
+  def set_yl_contact_owner
+    self.custom_attributes['yl_contact_owner'] = contact.custom_attributes['yl_contact_owner']
   end
 
   def ensure_snooze_until_reset
