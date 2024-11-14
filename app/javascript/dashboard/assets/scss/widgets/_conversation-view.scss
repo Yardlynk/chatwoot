@@ -191,7 +191,7 @@
   }
 
   .wrap {
-    max-width: Min(31rem, 84%);
+    // YL REMOVED - max-width: Min(31rem, 84%);
     @apply my-0 mx-4;
 
     .sender--name {
