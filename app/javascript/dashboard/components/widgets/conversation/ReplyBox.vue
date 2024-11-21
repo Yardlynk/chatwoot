@@ -982,7 +982,13 @@ export default {
     },
     setCCAndToEmailsFromLastChat() {
 
-      console.log(this);
+      let to = [];
+
+      // YARDLINK ADDED - Make to show always with conversation contact in the TO field
+      to.push(this.currentContact.email);
+
+      this.toEmails = to.join(', ');
+      to = [...new Set(to)];
 
       if (!this.lastEmail) return;
 
@@ -993,7 +999,6 @@ export default {
       // Retrieve the email of the current conversation's sender
       const conversationContact = this.currentChat?.meta?.sender?.email || '';
       let cc = emailAttributes.cc ? [...emailAttributes.cc] : [];
-      let to = [];
 
       // there might be a situation where the current conversation will include a message from a third person,
       // and the current conversation contact is in CC.
