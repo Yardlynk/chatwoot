@@ -982,6 +982,8 @@ export default {
     },
     setCCAndToEmailsFromLastChat() {
 
+      console.log(this);
+
       if (!this.lastEmail) return;
 
       const {
