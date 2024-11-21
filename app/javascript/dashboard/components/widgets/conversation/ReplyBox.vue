@@ -1007,6 +1007,9 @@ export default {
         cc.push(conversationContact);
       }
 
+      // YARDLINK ADDED - Make to show always with conversation contact in the TO field
+      to.push(conversationContact);
+
       // Remove the conversation contact's email from the BCC list if present
       let bcc = (emailAttributes.bcc || []).filter(
         email => email !== conversationContact
