@@ -466,6 +466,7 @@ export default {
           :email-attributes="contentAttributes.email"
           :cc="emailHeadAttributes.cc"
           :bcc="emailHeadAttributes.bcc"
+          :to="contentAttributes.to_emails"
           :is-incoming="isIncoming"
         />
         <InstagramStoryReply v-if="storyUrl" :story-url="storyUrl" />

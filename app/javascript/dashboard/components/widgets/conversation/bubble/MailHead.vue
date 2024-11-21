@@ -17,6 +17,10 @@ export default {
       type: Array,
       default: () => [],
     },
+    to: {
+      type: Array,
+      default: () => [],
+    },
   },
   computed: {
     fromMail() {
@@ -25,7 +29,7 @@ export default {
       return from.join(', ');
     },
     toMails() {
-      const to = this.emailAttributes.to || [];
+      const to = this.emailAttributes.to || this.to || [];
       return to.join(', ');
     },
     ccMails() {
