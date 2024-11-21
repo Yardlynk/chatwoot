@@ -20,6 +20,7 @@ export default {
   },
   computed: {
     fromMail() {
+      console.log(this);
       const from = this.emailAttributes.from || [];
       return from.join(', ');
     },
