@@ -981,6 +981,7 @@ export default {
       this.ccEmails = value.ccEmails;
     },
     setCCAndToEmailsFromLastChat() {
+
       if (!this.lastEmail) return;
 
       const {
@@ -1009,6 +1010,7 @@ export default {
 
       // YARDLINK ADDED - Make to show always with conversation contact in the TO field
       to.push(conversationContact);
+      to.push(this.currentContact.email);
 
       // Remove the conversation contact's email from the BCC list if present
       let bcc = (emailAttributes.bcc || []).filter(
