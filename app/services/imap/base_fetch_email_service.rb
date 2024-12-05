@@ -43,6 +43,9 @@ class Imap::BaseFetchEmailService
     message_ids_with_seq = fetch_message_ids_with_sequence
     message_ids_with_seq.filter_map do |message_id_with_seq|
       process_message_id(message_id_with_seq)
+    rescue StandardError => e
+      next
+      Rails.logger.error "[IMAP::fetch_mail_for_channel] sequence_number: #{message_id_with_seq.first} - error: #{e}"
     end
   end
 
@@ -64,6 +67,7 @@ class Imap::BaseFetchEmailService
       return
     end
 
+    Rails.logger.info("#{channel.provider} Email build mail from sequence_id: #{seq_no} - message_id: #{message_id}")
     inbound_mail = build_mail_from_string(mail_str)
     mail_info_logger(inbound_mail, seq_no)
     inbound_mail
