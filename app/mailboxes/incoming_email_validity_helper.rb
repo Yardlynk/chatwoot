@@ -25,6 +25,7 @@ module IncomingEmailValidityHelper
   end
 
   def auto_reply_email?
+    return false # ADDED BY YL
     if @processed_mail.auto_reply?
       Rails.logger.info "is_auto_reply? : #{processed_mail.auto_reply?}"
       true
