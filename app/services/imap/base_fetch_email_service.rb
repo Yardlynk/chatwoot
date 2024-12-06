@@ -44,7 +44,7 @@ class Imap::BaseFetchEmailService
 
     Rails.logger.info "[IMAP::FETCH_EMAIL_SERVICE] Squence numbers for #{channel.email}: <#{message_ids_with_seq.map(&:first)}>."
 
-    message_ids_with_seq.first(100).filter_map do |message_id_with_seq|
+    message_ids_with_seq.filter_map do |message_id_with_seq|
       Rails.logger.info "[IMAP::fetch_mail_for_channel] trying sequence_number: #{message_id_with_seq.first} / #{message_id_with_seq.last}"
       process_message_id(message_id_with_seq)
     rescue StandardError => e
