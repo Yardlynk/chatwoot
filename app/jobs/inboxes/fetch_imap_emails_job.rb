@@ -39,6 +39,7 @@ class Inboxes::FetchImapEmailsJob < MutexApplicationJob
       process_mail(inbound_mail, channel)
     end
   rescue OAuth2::Error => e
+    ChatwootExceptionTracker.new(e, account: channel.account).capture_exception
     Rails.logger.error "Error for email channel - #{channel.inbox.id} : #{e.message}"
     channel.authorization_error!
   end
