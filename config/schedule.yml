@@ -27,9 +27,15 @@ remove_stale_contact_inboxes_job.rb:
   class: 'Internal::RemoveStaleContactInboxesJob'
   queue: scheduled_jobs
 
+# executed daily at 2230 UTC
+# which is our lowest traffic time
+remove_stale_redis_keys_job.rb:
+  cron: '30 22 * * *'
+  class: 'Internal::RemoveStaleRedisKeysJob'
+  queue: scheduled_jobs
+
 # executed At every minute..
 # ADDED BY YARDLINK
 inbox_label_swap_job.rb:
   cron: '*/1 * * * *'
   class: 'InboxLabelSwapJob'
-  queue: scheduled_jobs
