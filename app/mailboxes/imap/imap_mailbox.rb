@@ -56,7 +56,8 @@ class Imap::ImapMailbox
 
     return if message.nil?
 
-    @inbox.conversations.find(message.conversation_id)
+    # CHANGED BY YARDLINK - @inbox.conversations.find(message.conversation_id)
+    Conversation.find(message.conversation_id)
   end
 
   def in_reply_to
