@@ -49,6 +49,6 @@ class Inboxes::FetchImapEmailsJob < MutexApplicationJob
   rescue StandardError => e
     ChatwootExceptionTracker.new(e, account: channel.account).capture_exception
     Rails.logger.error("
-      #{channel.provider} Email dropped: #{inbound_mail.from} and message_source_id: #{inbound_mail.message_id}")
+      #{channel.provider} Email dropped: #{inbound_mail.from} and message_source_id: #{inbound_mail.message_id} error:#{e}")
   end
 end
